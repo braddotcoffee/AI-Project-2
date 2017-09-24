@@ -8,7 +8,7 @@ from multiprocessing import Pool
 from lib.brain import Brain
 import unittest
 
-def main():
+def time_evaluation():
     testBoard = Board()
     testBoard.add_piece(Piece(Color.WHITE, Coordinate(1,1)))
     testBoard.add_piece(Piece(Color.WHITE, Coordinate(2,1)))
