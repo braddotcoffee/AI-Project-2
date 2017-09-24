@@ -14,12 +14,14 @@ class Brain(object):
     def make_move(self, board):
         pass
 
-    def evaluation_function(self, board):
+    @staticmethod
+    def evaluation_function(board, coeff=[1,3,5,7,9]):
+        
         own_score = [ sets_of_adjacent(i, board.all_friendly())  for i in range(1,6) ]
         enemy_score = [ sets_of_adjacent(i, board.all_enemy())  for i in range(1,6) ]
         score = 0
         for i in range(5):
-            score += Brain.apply_coefficient(own_score[i], enemy_score[i], self._coeff[i])
+            score += Brain.apply_coefficient(own_score[i], enemy_score[i], coeff[i])
         return score
 
     @staticmethod

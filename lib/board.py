@@ -1,3 +1,4 @@
+import random
 from lib.color import Color
 from lib.coordinate import Coordinate
 from lib.piece import Piece
@@ -18,6 +19,9 @@ class Board(object):
     @staticmethod
     def create_copy(board):
         return deepcopy(board)
+
+    def random_empty_coordinate(self):
+        return random.choice(list(self._board[Color.NONE].keys())) 
 
     # Returns dictionary of Coordinate -> Piece
     # Where Piece.Color == self.color
