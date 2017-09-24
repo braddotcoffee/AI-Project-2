@@ -59,6 +59,7 @@ def sets_by_diag(num, color_set):
 def check_diagonal(num, color_set, op_row, op_col):
     color_set = deepcopy(color_set)
     keys = list(color_set.keys())
+    if len(keys) == 0: return 0
     keys.sort()
     count = 0
     curr_found = 1
