@@ -12,19 +12,19 @@ class Brain(object):
     # Chooses move to make
     # Returns Piece to add to board
     def make_move(self, board):
-        copy_board = Board.create_copy(board)
-
+        count = 0
         best_score = float('-inf')
+        for i in board.all_empty_random_list():
+            copy_board = self.make_move_on_copy_board(board, i, board.color)
+            score = self.min_turn(copy_board, 1, float('-inf'), float('inf'))
+            count = count + 1
 
-        for i in range(5):
-            potential_move = copy_board.random_empty_coordinate()
-            score = self.min_turn(copy_board, 4, 0, potential_move)
             if(score > best_score):
                 best_score = score
-                best_move = potential_move
+                best_move = i
 
         print("Score: {}".format(best_score))
-        print("Move: {}".format(best_move))
+        print("Final Move: {}".format(best_move))
         return best_move
 
 
@@ -41,40 +41,44 @@ class Brain(object):
         return (coeff * own) - (coeff * enemy)
 
 
-    def max_turn(self, board, max_depth, current_depth, move):
-        if(current_depth == max_depth):
+    def max_turn(self, board, current_depth, alpha, beta):
+        if(current_depth == 0): ##Also need to implement game_over_state
             return self.evaluation_function(board)
 
-        copy_board = self.make_move_on_copy_board(board, move)
+        best_score = float('-inf')
+        for i in board.all_empty_random_list():
+            copy_board = self.make_move_on_copy_board(board, i, board.color)
 
-        best_score = self.find_best_move(copy_board, max_depth, current_depth, self.min_turn, operator.gt, float('-inf'))
+            best_score = max(best_score, self.min_turn(copy_board, current_depth-1, alpha, beta))
+            alpha = max(alpha, best_score)
+
+            if(beta < alpha):
+                print("Prune")
+                return best_score
 
         return best_score
 
-    def min_turn(self, board, max_depth, current_depth, move):
-        if(current_depth == max_depth):
-            brain = Brain()
-            return brain.evaluation_function(board)
+    def min_turn(self, board, current_depth, alpha, beta):
+        if(current_depth == 0):
+            return self.evaluation_function(board)
 
-        copy_board = self.make_move_on_copy_board(board, move)
+        best_score = float('inf')
+        for i in board.all_empty_random_list():
+            copy_board = self.make_move_on_copy_board(board, i, Color.opposite(board.color))
 
-        best_score = self.find_best_move(copy_board, max_depth, current_depth, self.max_turn, operator.lt, float('inf'))
+            best_score = min(best_score, self.max_turn(copy_board, current_depth-1, alpha, beta))
+            beta = min(beta, best_score)
+
+            if(beta < alpha):
+                print("Prune")
+                return best_score
+
         return best_score
 
     #Make a move on a copy of the board and return the new board
     #Switch the color of the copy board so that the next move does the opposite color
-    def make_move_on_copy_board(self, board, move):
+    def make_move_on_copy_board(self, board, move, color):
         copy_board = Board.create_copy(board)
-        copy_board.add_piece(Piece(board.color, move))
-        copy_board.color = Color.opposite(board.color) 
+        copy_board.add_piece(Piece(color, move))
         return copy_board
-
-    def find_best_move(self, board, max_depth, current_depth, function_to_call, operation, base_score):
-        best_score = base_score
-        for i in range(3):
-            potential_move = board.random_empty_coordinate()
-            score = function_to_call(board, max_depth, current_depth+1, potential_move)
-            if(operation(score, best_score)):
-                best_score = score
-        return best_score
 

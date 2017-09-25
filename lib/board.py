@@ -16,12 +16,18 @@ class Board(object):
                 self.add_empty_piece(Coordinate(i, j))
 
 
+    def __str__(self):
+        return "Num White: {}, Num Black: {}, Num None: {}".format(
+                len(self._board[Color.WHITE]),
+                len(self._board[Color.BLACK]),
+                len(self._board[Color.NONE]))
+
     @staticmethod
     def create_copy(board):
         return deepcopy(board)
 
     def random_empty_coordinate(self):
-        return random.choice(list(self._board[Color.NONE].keys())) 
+        return random.choice(list(self.all_empty().keys())) 
 
     # Returns dictionary of Coordinate -> Piece
     # Where Piece.Color == self.color
@@ -32,6 +38,17 @@ class Board(object):
     # Where Piece.Color == Color.opposite(self.color)
     def all_enemy(self):
         return self._board[Color.opposite(self.color)]
+
+    # Returns dictionary of Coordinate -> Piece
+    # Where Piece.Color == NONE
+    def all_empty(self):
+        return self._board[Color.NONE]
+
+    # Returns an empty list of all empty Coordinates
+    def all_empty_random_list(self):
+        l =  list(self.all_empty().keys())
+        random.shuffle(l)
+        return l
 
     # Returns true when agent owns coordinate
     def is_friendly(self, coordinate):
