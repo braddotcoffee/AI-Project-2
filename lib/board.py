@@ -45,10 +45,10 @@ class Board(object):
         return self._board[Color.NONE]
 
     # Returns an empty list of all empty Coordinates
-    def all_empty_random_list(self):
-        l =  list(self.all_empty().keys())
-        random.shuffle(l)
-        return l
+    def empty_random_piece(self):
+        pieces =  list(self.all_empty().keys())
+        i = random.randint(0, len(pieces)-1)
+        return pieces[i]
 
     # Returns true when agent owns coordinate
     def is_friendly(self, coordinate):

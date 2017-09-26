@@ -6,22 +6,25 @@ from lib.color import Color
 import operator
 
 class Brain(object):
-    def __init__(self, coeff=[1,3,5,7,9]):
+    def __init__(self, coeff=[1,3,5,7,9], branching_factor=12, depth=2):
         self._coeff = coeff
+        self._branching_factor = branching_factor
+        self._depth = depth
 
     # Chooses move to make
     # Returns Piece to add to board
     def make_move(self, board):
         count = 0
         best_score = float('-inf')
-        for i in board.all_empty_random_list():
-            copy_board = self.make_move_on_copy_board(board, i, board.color)
-            score = self.min_turn(copy_board, 1, float('-inf'), float('inf'))
+        for index in range(self._branching_factor):
+            potential_move = board.empty_random_piece()
+            copy_board = self.make_move_on_copy_board(board, potential_move, board.color)
+            score = self.min_turn(copy_board, self._depth, float('-inf'), float('inf'))
             count = count + 1
 
             if(score > best_score):
                 best_score = score
-                best_move = i
+                best_move = potential_move
 
         print("Score: {}".format(best_score))
         print("Final Move: {}".format(best_move))
@@ -46,14 +49,15 @@ class Brain(object):
             return self.evaluation_function(board)
 
         best_score = float('-inf')
-        for i in board.all_empty_random_list():
-            copy_board = self.make_move_on_copy_board(board, i, board.color)
+        for index in range(self._branching_factor):
+            potential_move = board.empty_random_piece()
+            copy_board = self.make_move_on_copy_board(board, potential_move, board.color)
 
             best_score = max(best_score, self.min_turn(copy_board, current_depth-1, alpha, beta))
             alpha = max(alpha, best_score)
 
             if(beta < alpha):
-                print("Prune")
+                #print("Prune")
                 return best_score
 
         return best_score
@@ -63,14 +67,15 @@ class Brain(object):
             return self.evaluation_function(board)
 
         best_score = float('inf')
-        for i in board.all_empty_random_list():
-            copy_board = self.make_move_on_copy_board(board, i, Color.opposite(board.color))
+        for index in range(self._branching_factor):
+            potential_move = board.empty_random_piece()
+            copy_board = self.make_move_on_copy_board(board, potential_move, Color.opposite(board.color))
 
             best_score = min(best_score, self.max_turn(copy_board, current_depth-1, alpha, beta))
             beta = min(beta, best_score)
 
             if(beta < alpha):
-                print("Prune")
+                #print("Prune")
                 return best_score
 
         return best_score
