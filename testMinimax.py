@@ -29,6 +29,20 @@ class TestBoard(unittest.TestCase):
         self.testBoard.add_piece(Piece(Color.BLACK, Coordinate(6,4)))
         self.testBoard.add_piece(Piece(Color.BLACK, Coordinate(7,4)))
 
+        """
+
+        ##############################
+        #                            #         
+        #                            #         
+        #                            #         
+        # B B B    B B B             #         
+        #                            #         
+        #                            #         
+        # W W W    W W W             #         
+        ##############################
+
+        """
+
         self.brain.make_move(self.testBoard)
 
 

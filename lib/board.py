@@ -26,6 +26,14 @@ class Board(object):
     def create_copy(board):
         return deepcopy(board)
 
+    #Make a move on a copy of the board and return the new board
+    #Switch the color of the copy board so that the next move does the opposite color
+    @staticmethod
+    def make_move_on_copy_board(board, move, color):
+        copy_board = Board.create_copy(board)
+        copy_board.add_piece(Piece(color, move))
+        return copy_board
+
     def random_empty_coordinate(self):
         return random.choice(list(self.all_empty().keys())) 
 
