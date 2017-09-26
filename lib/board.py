@@ -8,7 +8,16 @@ class Board(object):
     def __init__(self, color=Color.WHITE):
         self.color = color
         self._board = { Color.WHITE : {}, Color.BLACK : {} , Color.NONE : {}}
-        self._init_board()
+
+    @staticmethod
+    def create_copy(board):
+        return deepcopy(board)
+
+    @staticmethod
+    def create_init_board(color=Color.WHITE):
+        board = Board(color)
+        board._init_board()
+        return board
 
     def _init_board(self):
         for i in range(15):
@@ -22,9 +31,16 @@ class Board(object):
                 len(self._board[Color.BLACK]),
                 len(self._board[Color.NONE]))
 
-    @staticmethod
-    def create_copy(board):
-        return deepcopy(board)
+    def __deepcopy__(self, memodict={}):
+        copy_obj = Board(self.color)
+        for coord in self.all_empty():
+            copy_obj.add_empty_piece(coord)
+        for coord in self.all_friendly():
+            copy_obj.direct_add_piece(Piece(self.color, coord))
+        for coord in self.all_enemy():
+            copy_obj.direct_add_piece(Piece(Color.opposite(self.color), coord))
+        return copy_obj
+
 
     #Make a move on a copy of the board and return the new board
     #Switch the color of the copy board so that the next move does the opposite color
@@ -32,7 +48,7 @@ class Board(object):
     def make_move_on_copy_board(board, move, color):
         copy_board = Board.create_copy(board)
         copy_board.add_piece(Piece(color, move))
-        return copy_board
+        return copy_board.all_empty(), copy_board
 
     def random_empty_coordinate(self):
         return random.choice(list(self.all_empty().keys())) 
@@ -72,9 +88,13 @@ class Board(object):
 
     # Add a piece to the board
     def add_piece(self, piece):
-        self._board[piece.color][piece.coordinate] = piece
+        self.direct_add_piece(piece)
         del self._board[Color.NONE][piece.coordinate]
 
     # Adds empty piece to the board
     def add_empty_piece(self, coordinate):
         self._board[Color.NONE][coordinate] = Piece(Color.NONE, coordinate)
+
+    # Adds piece does not delete from none
+    def direct_add_piece(self, piece):
+        self._board[piece.color][piece.coordinate] = piece

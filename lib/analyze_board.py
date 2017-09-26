@@ -6,7 +6,7 @@ from lib.board import Board
 from lib.color import Color
 # For cleaner reduction and code reusability
 from operator import add, sub
-from copy import deepcopy
+from copy import copy
 
 # Counts distinct sets on the board
 # Of a specific color
@@ -45,6 +45,7 @@ def check_orthogonal(num, orth, attr):
     for i in range(len(orth)-1):
         if getattr(orth[i], attr) + 1 == getattr(orth[i + 1], attr):
             curr_found += 1
+            if curr_found == 5: return 1
         elif curr_found == num:
             count += 1
             curr_found = 1 # Reset
@@ -57,7 +58,7 @@ def sets_by_diag(num, color_set):
     return check_diagonal(num, color_set, add, add) + check_diagonal(num, color_set, sub, add)
 
 def check_diagonal(num, color_set, op_row, op_col):
-    color_set = deepcopy(color_set)
+    color_set = copy(color_set)
     keys = list(color_set.keys())
     if len(keys) == 0: return 0
     keys.sort()
@@ -70,6 +71,7 @@ def check_diagonal(num, color_set, op_row, op_col):
         coord = color_set.pop(Coordinate(temp_row, temp_col), False) # Return False if not found
         if coord:
             curr_found += 1
+            if curr_found == 5: return 1
         elif curr_found == num:
             count += 1
             curr_found = 1
