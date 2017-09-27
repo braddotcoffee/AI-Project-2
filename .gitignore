@@ -1,6 +1,11 @@
 # Swap files for Linux
 *.swp
 
+# Game Files
+move_file
+*.go
+end_game
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

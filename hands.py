@@ -17,11 +17,11 @@ class Hands():
         
     def run(self):
         
-        while(self.pollNextMove == True):
+        while(self.pollNextMove):
            
             #wait several ms,
             # then poll for move_file            
-            time.sleep(7)
+            time.sleep(0.5)
             #//TODO: Make the time delay lower
             
             if(os.path.isfile(self.groupname + ".go")):
@@ -30,12 +30,11 @@ class Hands():
                    self.pollNextMove = False
                    break
 
-                print ("Our move!")
                 enemy_move = Hands.check_move_file()
                 #//TODO: Start all the things
                 if(self.first_move):
                     self.first_move = False
-                    if move: 
+                    if enemy_move: 
                         self.color = Color.BLACK
                         self.body = Body(self.color)
                     else: # Executes one at most
@@ -46,25 +45,26 @@ class Hands():
                         continue
 
                 # Normal Gameflow
-                enemy_move = move.split()
+                print("NORMAL GAMEFLOW")
+                enemy_move = enemy_move.split()
                 x = Hands.mapLetterToNumber(enemy_move[1])
                 y = int(enemy_move[2])
                 enemy_piece = Piece(Color.opposite(self.color), Coordinate(x,y))
                 self.body.enemy_made_move(enemy_piece)
                 our_move = self.body.make_move()
                 self.write_move(our_move)
+                time.sleep(3)
 
 
                    
 
     @staticmethod
     def mapLetterToNumber(letter):
-        #We assume this only gets called with capital letters
-        return ord(letter) - 64
+        return ord(letter) - 96
 
     @staticmethod
     def mapNumberToLetter(number):
-        return chr(number + 64)
+        return chr(number + 96)
 
     @staticmethod
     def check_move_file():
