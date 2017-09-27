@@ -1,4 +1,5 @@
 from lib.coordinate import Coordinate
+from collections import deque
 from itertools import groupby
 from functools import reduce
 from lib.piece import Piece
@@ -62,6 +63,7 @@ def check_diagonal(num, color_set, op_row, op_col):
     keys = list(color_set.keys())
     if len(keys) == 0: return 0
     keys.sort()
+    keys = deque(keys)
     count = 0
     curr_found = 1
     temp_row, temp_col = get_start_coord(keys, color_set)
@@ -88,9 +90,9 @@ def within_bounds(val):
 
 def get_start_coord(keys, dictionary):
     if len(keys) == 0: return False, False
-    start_coord = keys.pop(0)
+    start_coord = keys.popleft()
     in_dict = dictionary.pop(start_coord, False)
     while not in_dict and len(keys) > 0:
-        start_coord = keys.pop(0)
+        start_coord = keys.popleft()
         in_dict = dictionary.pop(start_coord, False)
     return start_coord.x, start_coord.y

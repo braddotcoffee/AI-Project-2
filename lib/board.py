@@ -86,6 +86,10 @@ class Board(object):
     def is_empty(self, coordinate):
         return not self.is_friendly(coordinate) and not self.is_enemy(coordinate)
 
+    def remove_piece(self, piece):
+        del self._board[piece.color][piece.coordinate]
+        self.add_empty_piece(piece.coordinate)
+
     # Add a piece to the board
     def add_piece(self, piece):
         self.direct_add_piece(piece)
