@@ -51,14 +51,8 @@ def time_evaluation():
 
 class TestBoard(unittest.TestCase):
     def setUp(self):
-        self.testBoard = Board()
+        self.testBoard = Board.create_init_board()
         self.brain = Brain()
-
-    def test_empty(self):
-        self.assertEqual(self.brain.evaluation_function(self.testBoard), 0)
-        self.assertEqual(sets_by_row(1, self.testBoard.all_friendly()), 0)
-        self.assertEqual(sets_by_col(1, self.testBoard.all_friendly()), 0)
-        self.assertEqual(sets_by_diag(1, self.testBoard.all_friendly()), 0)
 
     def test_horizontal(self):
         self.testBoard.add_piece(Piece(Color.WHITE, Coordinate(1,1)))

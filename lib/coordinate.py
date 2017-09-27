@@ -7,26 +7,6 @@ class Coordinate(object):
     def __str__(self):
         return "(%s, %s)" % (self.x, self.y)
 
-    # --- Allows overwriting default getter and setter --- #
-    @property
-    def x(self):
-        return self._x
-    @x.setter
-    def x(self, value):
-        if value < 0 or value > 15:
-            raise ValueError("X Value Outside Range Of Board")
-        self._x = value
-
-    # --- Allows overwriting default getter and setter --- #
-    @property
-    def y(self):
-        return self._y
-    @y.setter
-    def y(self, value):
-        if value < 0 or value > 15:
-            raise ValueError("Y Value Outside Range Of Board")
-        self._y = value
-
     def calc_index(self):
         return self.x + (15 * self.y)
 
@@ -38,7 +18,7 @@ class Coordinate(object):
     # Copies coordinate and sets the Y value
     # Of the copy to value
     def copy_with_new_y(self, value):
-        return Coordinate(self.x, y)
+        return Coordinate(self.x, value)
 
     def __eq__(self, other):
         return self.x == other.x and self.y == other.y
@@ -49,4 +29,4 @@ class Coordinate(object):
         else:
             return self.x < other.x
     def __hash__(self):
-        return self._x * 13 + self._y * 31
+        return self.x * 13 + self.y * 31

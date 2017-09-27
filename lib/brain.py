@@ -14,10 +14,10 @@ class Brain(object):
     def make_move(self, board):
         move_list = board.all_empty()
         explored_moves = self._frontal_lobe.make_move(board, move_list)
-        move_list = self.next_pass(18, explored_moves)
+        move_list = self.next_pass(22, explored_moves)
         explored_moves = self._frontal_lobe.make_move(board, move_list)
-        #move_list = self.next_pass(2, explored_moves)
-        #explored_moves = self._frontal_lobe.make_move(board, move_list)
+        move_list = self.next_pass(2, explored_moves)
+        explored_moves = self._frontal_lobe.make_move(board, move_list)
         move_list = self.next_pass(1, explored_moves)
         final_move = move_list[0]
 
