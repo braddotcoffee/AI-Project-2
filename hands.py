@@ -24,9 +24,6 @@ class Hands():
             time.sleep(7)
             #//TODO: Make the time delay lower
             
-            #if exists:
-                #init all the things
-            
             if(os.path.isfile(self.groupname + ".go")):
 
                 if(os.path.isfile("end_game")):
@@ -34,24 +31,28 @@ class Hands():
                    break
 
                 print ("Our move!")
-                move = Hands.check_move_file()
+                enemy_move = Hands.check_move_file()
                 #//TODO: Start all the things
                 if(self.first_move):
                     self.first_move = False
                     if move: 
                         self.color = Color.BLACK
                         self.body = Body(self.color)
-                        self.body.make_move()
-                    else: self.color = Color.WHITE
+                    else: # Executes one at most
+                        self.color = Color.WHITE
+                        self.body = Body(self.color)
+                        our_move = self.body.make_move()
+                        self.write_move(our_move)
+                        continue
 
-
-                move = move.split()
-                x = Hands.mapLetterToNumber(move[1])
-                y = int(move[2])
+                # Normal Gameflow
+                enemy_move = move.split()
+                x = Hands.mapLetterToNumber(enemy_move[1])
+                y = int(enemy_move[2])
                 enemy_piece = Piece(Color.opposite(self.color), Coordinate(x,y))
                 self.body.enemy_made_move(enemy_piece)
                 our_move = self.body.make_move()
-                self.write_move(move)
+                self.write_move(our_move)
 
 
                    

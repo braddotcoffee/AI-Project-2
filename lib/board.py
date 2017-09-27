@@ -20,8 +20,8 @@ class Board(object):
         return board
 
     def _init_board(self):
-        for i in range(15):
-            for j in range(15):
+        for i in range(1,16):
+            for j in range(1,16):
                 self.add_empty_piece(Coordinate(i, j))
 
 
