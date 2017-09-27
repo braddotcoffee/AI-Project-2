@@ -7,19 +7,16 @@ from lib.piece import Piece
 from lib.coordinate import Coordinate
 
 class Hands():
-    print("Made")
     
-    def __init__(self):
+    def __init__(self, color=Color.WHITE, groupname="iron"):
         
         self.pollNextMove = True
-        makeFirstMove = False
+        self.groupname = groupname
+        self.first_move = True
+        self.color = color
         
-        myColor = Color.NONE
+    def run(self):
         
-        print("Initialized")
-        
-    #I think I really want all the stuff in the rest of _init_ to be in a loop function,
-        #but I don't know how to make the local/global variables agree
         while(self.pollNextMove == True):
            
             #wait several ms,
@@ -30,72 +27,50 @@ class Hands():
             #if exists:
                 #init all the things
             
-            if(os.path.isfile("myFileName")):
-                print ("Our move!")
-                #//TODO: Start all the things
-                if(makeFirstMove == True):
-                    myBody.start_game(myColor)
-                    makeFirstMove = False
-                    continue
+            if(os.path.isfile(self.groupname + ".go")):
+
                 if(os.path.isfile("end_game")):
                    self.pollNextMove = False
                    break
+
+                print ("Our move!")
+                move = Hands.check_move_file()
+                #//TODO: Start all the things
+                if(self.first_move):
+                    self.first_move = False
+                    if move: 
+                        self.color = Color.BLACK
+                        self.body = Body(self.color)
+                        self.body.make_move()
+                    else: self.color = Color.WHITE
+
+
+                move = move.split()
+                x = Hands.mapLetterToNumber(move[1])
+                y = int(move[2])
+                enemy_piece = Piece(Color.opposite(self.color), Coordinate(x,y))
+                self.body.enemy_made_move(enemy_piece)
+                our_move = self.body.make_move()
+                self.write_move(move)
+
+
                    
-                if(os.path.isfile("move_file")):
-                    with open("move_file", "r") as file:
-                        if(myColor == Color.NONE):            
-                            #This is the first move of the game
-                            file.seek(0)
-                            first_char = file.read(1)
-                            if not first_char:
-                                myColor = Color.WHITE
-                                myBody = Body(myColor)
 
-                                #Put this in a flag so we don't do it with the file open
-                                makeFirstMove = True
-                                continue
-                            else:
-                                 myColor = Color.BLACK
-                                 myBody = Body(myColor)
-                            file.seek(0)
-                            #Initialize all the code here
-
-                        moveString = file.readline()
-                        print ("moveString = " + moveString)
-                        
-                    #File is closed so they don't yell at us
-                    #I thought the indices would be -3 and -1, but it seems there's a newline
-                        #character at the end. I'm hoping this isn't a CRLF Windows thing.
-                        #It might be safer to get the character after the first space and
-                        #after the second space.
-                    print("column letter: " + moveString[-4])
-                    theirColor = Color.opposite(myColor)
-                    theirX = self.mapLetterToNumber(moveString[-4])
-                    theirY = int(moveString[-2])
-
-                    print("Their X: " + str(theirX))
-                    print("Their Y: " + str(theirY))
-                        
-                    newPiece = Piece(theirColor, Coordinate(theirX,theirY))
-                    #pass last move to body
-                    myBody.enemy_made_move(newPiece)
-                    #I'm assuming we're not doing multithreading
-                    #so the next line will happen after enemy_made_move returns
-                    #time.sleep(0.1)
-
-    def mapLetterToNumber(self,letter):
+    @staticmethod
+    def mapLetterToNumber(letter):
         #We assume this only gets called with capital letters
         return ord(letter) - 64
-    def mapNumberToLetter(self,number):
+
+    @staticmethod
+    def mapNumberToLetter(number):
         return chr(number + 64)
 
     @staticmethod
-    def write_move(self,move):
-        print("\nOur move:")
-        print(move)
-         #open move_file
-         #with open("move_file", "r") as file:
-             #Delete the contents of the file
-             #Put in our team name followed by our move
-         #close file
-        #call loop
+    def check_move_file():
+        with open("move_file", "r") as move_file:
+            for line in move_file:
+                return line
+
+    def write_move(self, move):
+        with open("move_file", "w") as file:
+            file.write("%s %s %d" % (self.groupname, Hands.mapNumberToLetter(move.x), move.y))
