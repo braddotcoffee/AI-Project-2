@@ -1,5 +1,6 @@
 from lib.color import Color
 from lib.coordinate import Coordinate
+from lib.board import Board
 
 class Body():
     def __init__(self, our_color):
