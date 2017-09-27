@@ -5,18 +5,19 @@ from lib.color import Color
 import operator
 
 class Brain(object):
-    def __init__(self, coeff=[1,3,5,7,900], depth=1):
+    def __init__(self, coeff=[1,3,5,7,900], branching_factors=[30,5], depth=1):
         self._depth = depth
         self._frontal_lobe = FrontalLobe(coeff, depth)
+        self._branching_factors = branching_factors
 
     # Chooses move to make
     # Returns Piece to add to board
     def make_move(self, board):
         move_list = board.all_empty()
         explored_moves = self._frontal_lobe.make_move(board, move_list)
-        move_list = self.next_pass(22, explored_moves)
+        move_list = self.next_pass(self._branching_factors[0], explored_moves)
         explored_moves = self._frontal_lobe.make_move(board, move_list)
-        move_list = self.next_pass(2, explored_moves)
+        move_list = self.next_pass(self._branching_factors[1], explored_moves)
         explored_moves = self._frontal_lobe.make_move(board, move_list)
         move_list = self.next_pass(1, explored_moves)
         final_move = move_list[0]
