@@ -1,13 +1,14 @@
-from lib.frontal_lobe import FrontalLobe
+from lib.frontal_lobe import FrontalLobe 
 from lib.piece import Piece
 from lib.board import Board
 from lib.color import Color
 import operator
 
 class Brain(object):
-    def __init__(self, coeff=[1,3,5,7,900], branching_factors=[30,5], depth=1):
+    def __init__(self, f_coeff=[1,10,30,90,900], e_coeff=[1,20, 50, 120, 855], branching_factors=[30,5],
+            depth=1):
         self._depth = depth
-        self._frontal_lobe = FrontalLobe(coeff, depth)
+        self._frontal_lobe = FrontalLobe(f_coeff, e_coeff, depth)
         self._branching_factors = branching_factors
 
     # Chooses move to make

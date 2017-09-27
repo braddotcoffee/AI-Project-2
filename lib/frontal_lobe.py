@@ -4,37 +4,34 @@ from lib.color import Color
 from lib.piece import Piece
 
 class FrontalLobe(object):
-    def __init__(self, coeff=[1,3,5,7,900], depth=1):
-        self._coeff = coeff
+    def __init__(self, f_coeff, e_coeff, depth=1):
+        self.f_coeff = f_coeff
+        self.e_coeff = e_coeff
         self.depth = depth
 
     def make_move(self, board, move_list):
         explored_moves = {}
         for potential_move in move_list:
             new_move_list, copy_board = Board.make_move_on_copy_board(board, potential_move, board.color)
-            #board.add_piece(Piece(board.color, potential_move))
-            #new_move_list = board.all_empty()
 
             score = self.min_turn(copy_board, new_move_list, self.depth - 1, float('-inf'), float('inf'))
             explored_moves[potential_move] = score
-
-            #board.remove_piece(Piece(board.color, potential_move))
-
 
         return explored_moves
 
 
     def evaluation_function(self, board):
-        own_score = sets_of_adjacent(board.all_friendly())
-        enemy_score = sets_of_adjacent(board.all_enemy())
+        own_score = sets_of_adjacent(board.all_friendly(), board.all_enemy())
+        enemy_score = sets_of_adjacent(board.all_enemy(), board.all_friendly())
         score = 0
         for i in range(1,6):
-            score += FrontalLobe.apply_coefficient(own_score[i], enemy_score[i], self._coeff[i-1])
+            score += FrontalLobe.apply_coefficient(own_score[i], enemy_score[i], self.f_coeff[i-1],
+                    self.e_coeff[i-1])
         return score
 
     @staticmethod
-    def apply_coefficient(own, enemy, coeff):
-        return (coeff * own) - (coeff * enemy)
+    def apply_coefficient(own, enemy, f_coeff, e_coeff):
+        return (f_coeff * own) - (e_coeff * enemy)
 
     def max_turn(self, board, move_list, current_depth, alpha, beta):
         if(current_depth == 0): ##Also need to implement game_over_state
