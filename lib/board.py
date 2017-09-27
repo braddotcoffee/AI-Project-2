@@ -48,7 +48,7 @@ class Board(object):
     def make_move_on_copy_board(board, move, color):
         copy_board = Board.create_copy(board)
         copy_board.add_piece(Piece(color, move))
-        return copy_board.all_empty(), copy_board
+        return copy_board.get_empty_adjacencies(), copy_board
 
     def random_empty_coordinate(self):
         return random.choice(list(self.all_empty().keys())) 
@@ -102,3 +102,25 @@ class Board(object):
     # Adds piece does not delete from none
     def direct_add_piece(self, piece):
         self._board[piece.color][piece.coordinate] = piece
+
+    def get_empty_adjacencies(self):
+        all_adjacencies = {}
+        friends = list(self.all_friendly().keys())
+        enemies = list(self.all_enemy().keys())
+        self.get_empty_adjacencies_of_side(friends, all_adjacencies)
+        self.get_empty_adjacencies_of_side(enemies, all_adjacencies)
+        
+
+
+    def get_empty_adjacencies_of_side(self, side, all_adjacencies):
+        for coord in side:
+            adjacencies = coord.all_adjacents()
+            for adj in adjacencies:
+                if adj in self.all_empty():
+                    all_adjacencies[adj] = True
+
+
+
+
+        
+
