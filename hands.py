@@ -8,15 +8,19 @@ from lib.coordinate import Coordinate
 
 class Hands():
     print("Made")
+    
     def __init__(self):
         
-    
+        self.pollNextMove = True
         makeFirstMove = False
-        pollNextMove = True
+        
         myColor = Color.NONE
         
         print("Initialized")
-        while(pollNextMove == True):
+        
+    #I think I really want all the stuff in the rest of _init_ to be in a loop function,
+        #but I don't know how to make the local/global variables agree
+        while(self.pollNextMove == True):
            
             #wait several ms,
             # then poll for move_file            
@@ -31,8 +35,12 @@ class Hands():
                 #//TODO: Start all the things
                 if(makeFirstMove == True):
                     myBody.start_game(myColor)
+                    makeFirstMove = False
                     continue
-
+                if(os.path.isfile("end_game")):
+                   self.pollNextMove = False
+                   break
+                   
                 if(os.path.isfile("move_file")):
                     with open("move_file", "r") as file:
                         if(myColor == Color.NONE):            
@@ -70,14 +78,19 @@ class Hands():
                         
                     newPiece = Piece(theirColor, Coordinate(theirX,theirY))
                     #pass last move to body
-                    myBody.make_move(newPiece)
+                    #myBody.enemy_made_move(newPiece)
+                    pollNextMove = False
 
     def mapLetterToNumber(self,letter):
         #We assume this only gets called with capital letters
         return ord(letter) - 64
-    def write_move(self,move):
+    def mapNumberToLetter(self,number):
+        return chr(number + 64)
+    
+    #def write_move(self,move):
          #open move_file
-         with open("move_file", "r") as file:
-             
-         #append in our move
+         #with open("move_file", "r") as file:
+             #Delete the contents of the file
+             #Put in our team name followed by our move
          #close file
+        #call loop
