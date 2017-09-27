@@ -64,22 +64,20 @@ def check_diagonal(num, color_set, op_row, op_col):
     keys.sort()
     count = 0
     curr_found = 1
-    visited = {}
-    temp_row, temp_col = get_start_coord(keys, visited)
+    temp_row, temp_col = get_start_coord(keys, color_set)
     while len(keys) > 0 and within_bounds(temp_row) and within_bounds(temp_col):
         temp_row = op_row(temp_row, 1)
         temp_col = op_col(temp_col, 1)
-        coord = Coordinate(temp_row, temp_col)
-        visited[coord] = True
-        if coord in color_set:
+        coord = color_set.pop(Coordinate(temp_row, temp_col), False) # Return False if not found
+        if coord:
             curr_found += 1
             if curr_found == 5: return 1
         elif curr_found == num:
             count += 1
             curr_found = 1
-            temp_row, temp_col = get_start_coord(keys, visited)
+            temp_row, temp_col = get_start_coord(keys, color_set)
         else:
-            temp_row, temp_col = get_start_coord(keys, visited)
+            temp_row, temp_col = get_start_coord(keys, color_set)
             curr_found = 1
     if curr_found == num: count += 1
     return count
@@ -88,8 +86,11 @@ def check_diagonal(num, color_set, op_row, op_col):
 def within_bounds(val):
     return val > 0 and val < 14
 
-def get_start_coord(keys, visited):
-    for key in keys:
-        if key not in visited: return key.x, key.y
-    return False, False
-
+def get_start_coord(keys, dictionary):
+    if len(keys) == 0: return False, False
+    start_coord = keys.pop(0)
+    in_dict = dictionary.pop(start_coord, False)
+    while not in_dict and len(keys) > 0:
+        start_coord = keys.pop(0)
+        in_dict = dictionary.pop(start_coord, False)
+    return start_coord.x, start_coord.y
