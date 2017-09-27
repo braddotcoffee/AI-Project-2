@@ -2,6 +2,7 @@ class Coordinate(object):
     def __init__(self, x, y):
         self.x = x
         self.y = y
+        self.adjacency_index = self.calc_index()
 
     def __str__(self):
         return "(%s, %s)" % (self.x, self.y)
@@ -25,6 +26,9 @@ class Coordinate(object):
         if value < 0 or value > 15:
             raise ValueError("Y Value Outside Range Of Board")
         self._y = value
+
+    def calc_index(self):
+        return self.x + (15 * self.y)
 
     # Copies coordinate and sets the X value
     # Of the copy to value
