@@ -16,7 +16,6 @@ class Body():
 
     #Sends the current board state to the brain, gets a move back, and makes it
     def make_move(self):
-        print("BODY MAKE MOVE")
         our_move = self._brain.make_move(self._board)
         self._board.add_piece(Piece(self._color, our_move))
         print("\n**\n")

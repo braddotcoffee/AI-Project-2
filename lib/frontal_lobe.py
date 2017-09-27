@@ -48,7 +48,6 @@ class FrontalLobe(object):
 
             #board.remove_piece(Piece(board.color, potential_move))
             if(beta < alpha):
-                #print("Prune")
                 return best_score
 
         return best_score
