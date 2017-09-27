@@ -10,6 +10,18 @@ class Coordinate(object):
     def calc_index(self):
         return self.x + (15 * self.y)
 
+    def all_adjacents(self):
+        coords = []
+        coords.append(Coordinate(self.x - 1, self.y - 1)) # BLD
+        coords.append(Coordinate(self.x - 1, self.y)) # L
+        coords.append(Coordinate(self.x - 1, self.y + 1)) # ULD
+        coords.append(Coordinate(self.x, self.y + 1)) # U
+        coords.append(Coordinate(self.x + 1, self.y + 1)) # URD
+        coords.append(Coordinate(self.x + 1, self.y)) # R
+        coords.append(Coordinate(self.x + 1, self.y - 1)) # BRD
+        coords.append(Coordinate(self.x, self.y - 1)) # B
+        return coords
+
     # Copies coordinate and sets the X value
     # Of the copy to value
     def copy_with_new_x(self, value):
