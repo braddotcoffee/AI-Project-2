@@ -53,7 +53,7 @@ def time_test():
     testBoard.add_piece(Piece(Color.WHITE, Coordinate(1,1)))
     testBoard.add_piece(Piece(Color.WHITE, Coordinate(2,1)))
     testBoard.add_piece(Piece(Color.WHITE, Coordinate(3,1)))
-    testBoard.add_piece(Piece(Color.WHITE, Coordinate(5,1)))
+    testBoard.add_piece(Piece(Color.WHITE, Coordinate(14,1)))
     testBoard.add_piece(Piece(Color.WHITE, Coordinate(6,1)))
     testBoard.add_piece(Piece(Color.WHITE, Coordinate(7,1)))
 
@@ -74,6 +74,7 @@ def time_test():
     #                            #         
     #                            #         
     # W W W    W W W             #         
+    #                            #
     ##############################
 
     """
