@@ -4,8 +4,9 @@ from lib.board import Board
 
 class Body():
     def __init__(self, our_color):
+        self._brain = Brain()
         self._our_color = our_color
-        self._board = Board(our_color)
+        self._board = Board.create_init_board(our_color)
         self.start_game()
 
 
@@ -20,6 +21,6 @@ class Body():
 
     #Sends the current board state to the brain, gets a move back, and makes it
     def make_move(self):
-        print("Make move")
-        #our_move = brain.get_next_move(self._board)
+        our_move = self._brain.make_move(self._board)
+        self._board.add_piece(Piece(our_move, self._our_color))
         #io_manager.write_move(our_move)
