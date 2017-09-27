@@ -79,7 +79,9 @@ class Hands():
                     newPiece = Piece(theirColor, Coordinate(theirX,theirY))
                     #pass last move to body
                     #myBody.enemy_made_move(newPiece)
-                    pollNextMove = False
+                    #I'm assuming we're not doing multithreading
+                    #so the next line will happen after enemy_made_move returns
+                    #time.sleep(0.1)
 
     def mapLetterToNumber(self,letter):
         #We assume this only gets called with capital letters
