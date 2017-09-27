@@ -78,7 +78,7 @@ class TestBoard(unittest.TestCase):
         sets(3) = 2
 
         """
-        self.assertEqual(self.brain.evaluation_function(self.testBoard), 28)
+        self.assertEqual(self.brain._frontal_lobe.evaluation_function(self.testBoard), 28)
 
     def test_vertical(self):
         self.testBoard.add_piece(Piece(Color.WHITE, Coordinate(1,1)))
@@ -104,7 +104,7 @@ class TestBoard(unittest.TestCase):
         sets(3) = 2
 
         """
-        self.assertEqual(self.brain.evaluation_function(self.testBoard), 28)
+        self.assertEqual(self.brain._frontal_lobe.evaluation_function(self.testBoard), 28)
 
     def test_diag(self):
         self.testBoard.add_piece(Piece(Color.WHITE, Coordinate(1,1)))
@@ -125,13 +125,13 @@ class TestBoard(unittest.TestCase):
         # x                         #  
         #############################
 
-        sets(1) = 18 [couont each diag and each horizontal] * 1
+        sets(1) = 17 [count each diag and each horizontal] * 1
         sets(2) = 0 * 3
         sets(3) = 1 * 5
         sets(4) = 1 * 7
 
         """
-        self.assertEqual(self.brain.evaluation_function(self.testBoard), 30)
+        self.assertEqual(self.brain._frontal_lobe.evaluation_function(self.testBoard), 29)
 
 if __name__ == "__main__":
     unittest.main()
