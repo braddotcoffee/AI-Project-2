@@ -24,7 +24,7 @@ class Hands():
            
             #wait several ms,
             # then poll for move_file            
-            time.sleep(2)
+            time.sleep(7)
             #//TODO: Make the time delay lower
             
             #if exists:
@@ -78,7 +78,7 @@ class Hands():
                         
                     newPiece = Piece(theirColor, Coordinate(theirX,theirY))
                     #pass last move to body
-                    #myBody.enemy_made_move(newPiece)
+                    myBody.enemy_made_move(newPiece)
                     #I'm assuming we're not doing multithreading
                     #so the next line will happen after enemy_made_move returns
                     #time.sleep(0.1)
@@ -88,8 +88,11 @@ class Hands():
         return ord(letter) - 64
     def mapNumberToLetter(self,number):
         return chr(number + 64)
-    
-    #def write_move(self,move):
+
+    @staticmethod
+    def write_move(self,move):
+        print("\nOur move:")
+        print(move)
          #open move_file
          #with open("move_file", "r") as file:
              #Delete the contents of the file
