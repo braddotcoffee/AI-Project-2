@@ -109,6 +109,7 @@ class Board(object):
         enemies = list(self.all_enemy().keys())
         self.get_empty_adjacencies_of_side(friends, all_adjacencies)
         self.get_empty_adjacencies_of_side(enemies, all_adjacencies)
+        return all_adjacencies
         
 
 
