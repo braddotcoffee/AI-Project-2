@@ -1,6 +1,7 @@
 from lib.analyze_board import sets_of_adjacent
 from lib.board import Board
 from lib.color import Color
+from lib.piece import Piece
 
 class FrontalLobe(object):
     def __init__(self, coeff=[1,3,5,7,900], depth=1):
@@ -10,9 +11,14 @@ class FrontalLobe(object):
     def make_move(self, board, move_list):
         explored_moves = {}
         for potential_move in move_list:
-            new_move_list, copy_board = Board.make_move_on_copy_board(board, potential_move, board.color)
-            score = self.min_turn(copy_board, new_move_list, self.depth - 1, float('-inf'), float('inf'))
+            board.add_piece(Piece(board.color, potential_move))
+            new_move_list = board.all_empty()
+
+            score = self.min_turn(board, new_move_list, self.depth - 1, float('-inf'), float('inf'))
             explored_moves[potential_move] = score
+
+            board.remove_piece(Piece(board.color, potential_move))
+
 
         return explored_moves
 
@@ -35,11 +41,13 @@ class FrontalLobe(object):
 
         best_score = float('-inf')
         for potential_move in move_list:
-            new_move_list, copy_board = Board.make_move_on_copy_board(board, potential_move, board.color)
+            board.add_piece(Piece(board.color, potential_move))
+            new_move_list = board.all_empty()
 
-            best_score = max(best_score, self.min_turn(copy_board, new_move_list, current_depth-1, alpha, beta))
+            best_score = max(best_score, self.min_turn(board, new_move_list, current_depth-1, alpha, beta))
             alpha = max(alpha, best_score)
 
+            board.remove_piece(Piece(board.color, potential_move))
             if(beta < alpha):
                 #print("Prune")
                 return best_score
@@ -52,11 +60,13 @@ class FrontalLobe(object):
 
         best_score = float('inf')
         for potential_move in move_list:
-            new_move_list, copy_board = Board.make_move_on_copy_board(board, potential_move, Color.opposite(board.color))
+            board.add_piece(Piece(Color.opposite(board.color), potential_move))
+            new_move_list = board.all_empty()
 
-            best_score = min(best_score, self.max_turn(copy_board, new_move_list, current_depth-1, alpha, beta))
+            best_score = min(best_score, self.max_turn(board, new_move_list, current_depth-1, alpha, beta))
             beta = min(beta, best_score)
 
+            board.remove_piece(Piece(Color.opposite(board.color), potential_move))
             if(beta < alpha):
                 #print("Prune")
                 return best_score

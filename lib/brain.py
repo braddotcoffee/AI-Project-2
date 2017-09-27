@@ -14,10 +14,10 @@ class Brain(object):
     def make_move(self, board):
         move_list = board.all_empty()
         explored_moves = self._frontal_lobe.make_move(board, move_list)
-        # move_list = self.next_pass(18, explored_moves)
-        # explored_moves = self._frontal_lobe.make_move(board, move_list)
-        move_list = self.next_pass(2, explored_moves)
+        move_list = self.next_pass(18, explored_moves)
         explored_moves = self._frontal_lobe.make_move(board, move_list)
+        #move_list = self.next_pass(2, explored_moves)
+        #explored_moves = self._frontal_lobe.make_move(board, move_list)
         move_list = self.next_pass(1, explored_moves)
         final_move = move_list[0]
 
@@ -27,7 +27,7 @@ class Brain(object):
     def next_pass(self, num, explored_moves):
         move_list = list(explored_moves.keys())
         move_list = Brain.get_num_best(num, move_list, explored_moves)
-        self._frontal_lobe.depth += 2
+        self._frontal_lobe.depth += 1
         return move_list
 
 
