@@ -23,9 +23,6 @@ class Brain(object):
         move_list = self.next_pass(1, explored_moves)
         final_move = move_list[0]
 
-        print("Best Score: %d" % explored_moves[final_move])
-        print("Best move: %s" % final_move)
-
         self._frontal_lobe.depth = 1
 
         return final_move
