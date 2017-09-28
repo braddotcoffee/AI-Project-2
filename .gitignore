@@ -1,7 +1,8 @@
-# Swap files for Linux
+# Swap files for Vim
 *.swp
 
 # Game Files
+history_file
 move_file
 *.go
 end_game
