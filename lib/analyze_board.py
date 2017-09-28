@@ -13,7 +13,6 @@ from operator import add, sub
 # Counts distinct sets on the board
 # Of a specific color
 # Where num pieces are adjacent to one another
-# (No more no less)
 def sets_of_adjacent(friendly, enemy):
     visited = [{}, {}, {}, {}]
     scores = {1:0, 2:0, 3:0, 4:0, 5:0}
@@ -34,7 +33,6 @@ def sets_of_adjacent(friendly, enemy):
             scores[count] += 1
 
     return scores
-
 
 def traverse_successors(coord, direction, friendly, enemy, visited, count=1):
     successor = get_successor(coord, direction)
