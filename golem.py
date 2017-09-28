@@ -1,3 +1,9 @@
+'''
+Team: Golem
+Members:    Brad Bonanno
+            Harry Sadoyan
+            Alex Taglieri
+'''
 from lib.hands import Hands
 import cProfile
 

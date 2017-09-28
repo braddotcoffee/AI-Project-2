@@ -1,4 +1,12 @@
 # AI-Project-2
+
+Team: Golem
+Members:    Brad Bonanno
+            Harry Sadoyan
+            Alex Taglieri
+
+---
+
 Implement an agent using the minimax algorithm capable of playing Gomoku 
 
 Our beautiful creation is named `golem`
