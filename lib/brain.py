@@ -14,7 +14,7 @@ class Brain(object):
     # Chooses move to make
     # Returns Piece to add to board
     def make_move(self, board):
-        move_list = board.all_empty()
+        move_list = board.get_empty_adjacencies()
         explored_moves = self._frontal_lobe.make_move(board, move_list)
         move_list = self.next_pass(self._branching_factors[0], explored_moves)
         explored_moves = self._frontal_lobe.make_move(board, move_list)
