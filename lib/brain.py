@@ -5,20 +5,19 @@ from lib.color import Color
 import operator
 
 class Brain(object):
-    def __init__(self, f_coeff=[1,10,30,90,900], e_coeff=[1,20, 50, 120, 855], branching_factors=[22,5],
-            depth=1):
+    def __init__(self, f_coeff=[1,10,30,90,900], e_coeff=[1,20, 50, 120, 855], depth=1):
         self._depth = depth
         self._frontal_lobe = FrontalLobe(f_coeff, e_coeff, depth)
-        self._branching_factors = branching_factors
 
     # Chooses move to make
     # Returns Piece to add to board
     def make_move(self, board):
         move_list = board.get_empty_adjacencies()
+        branching_factors = Brain.get_branching_factors(len(move_list))
         explored_moves = self._frontal_lobe.make_move(board, move_list)
-        move_list = self.next_pass(self._branching_factors[0], explored_moves)
+        move_list = self.next_pass(branching_factors[0], explored_moves)
         explored_moves = self._frontal_lobe.make_move(board, move_list)
-        move_list = self.next_pass(self._branching_factors[1], explored_moves)
+        move_list = self.next_pass(branching_factors[1], explored_moves)
         explored_moves = self._frontal_lobe.make_move(board, move_list)
         move_list = self.next_pass(1, explored_moves)
         final_move = move_list[0]
@@ -36,6 +35,14 @@ class Brain(object):
         self._frontal_lobe.depth += 1
         return move_list
 
+    @staticmethod
+    def get_branching_factors(len_move_list):
+        if len_move_list < 30:
+            return (25, 5)
+        elif len_move_list < 50:
+            return (20, 3)
+        else:
+            return (18,2)
 
     @staticmethod
     def get_num_best(num, move_list, explored_moves):
