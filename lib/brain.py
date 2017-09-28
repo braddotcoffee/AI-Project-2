@@ -5,7 +5,7 @@ from lib.color import Color
 import operator
 
 class Brain(object):
-    def __init__(self, f_coeff=[1,10,30,90,900], e_coeff=[1,20, 50, 120, 855], branching_factors=[10,3],
+    def __init__(self, f_coeff=[1,10,30,90,900], e_coeff=[1,20, 50, 120, 855], branching_factors=[22,5],
             depth=1):
         self._depth = depth
         self._frontal_lobe = FrontalLobe(f_coeff, e_coeff, depth)
@@ -14,8 +14,7 @@ class Brain(object):
     # Chooses move to make
     # Returns Piece to add to board
     def make_move(self, board):
-        print("BRAIN MAKE MOVE")
-        move_list = board.all_empty()
+        move_list = board.get_empty_adjacencies()
         explored_moves = self._frontal_lobe.make_move(board, move_list)
         move_list = self.next_pass(self._branching_factors[0], explored_moves)
         explored_moves = self._frontal_lobe.make_move(board, move_list)
@@ -26,6 +25,8 @@ class Brain(object):
 
         print("Best Score: %d" % explored_moves[final_move])
         print("Best move: %s" % final_move)
+
+        self._frontal_lobe.depth = 1
 
         return final_move
 

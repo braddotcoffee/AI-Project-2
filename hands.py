@@ -1,5 +1,6 @@
 import time
 import os.path
+import random
 
 from lib.color import Color
 from lib.body import Body
@@ -14,6 +15,7 @@ class Hands():
         self.groupname = groupname
         self.first_move = True
         self.color = color
+        self.mids = [Coordinate(7,7), Coordinate(7,8), Coordinate(8,7), Coordinate(8,8)]
         
     def run(self):
         
@@ -40,8 +42,7 @@ class Hands():
                     else: # Executes one at most
                         self.color = Color.WHITE
                         self.body = Body(self.color)
-                        our_move = self.body.make_move()
-                        self.write_move(our_move)
+                        self.write_move(self.mids[random.randint(0,3)])
                         continue
 
                 # Normal Gameflow

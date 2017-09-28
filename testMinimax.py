@@ -81,6 +81,15 @@ def time_test():
 
     brain.make_move(testBoard)
 
+def test_early():
+    testBoard = Board.create_init_board()
+    brain = Brain()
+
+    testBoard.add_piece(Piece(Color.WHITE, Coordinate(1,1)))
+    testBoard.add_piece(Piece(Color.WHITE, Coordinate(1,2)))
+
+    brain.make_move(testBoard)
+
 
 
 if __name__ == "__main__":
