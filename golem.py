@@ -12,4 +12,4 @@ def main():
     testHands.run()
 
 if __name__ == "__main__":
-    cProfile.run("main()", sort="tottime")
+    main()
