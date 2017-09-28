@@ -13,6 +13,10 @@ Our beautiful creation is named `golem`
 
 Call `python golem.py` to start the agent
 Written in `python3`
+If you have aliased python to python2, it's possible to run our program by calling:
+py -3 golem.py
+(assuming you have python3 installed)
+
 
 Our beautiful creation has `hands` to interact with the rest of the world,
 a `brain` to make decisions, a `frontal_lobe`, and a `body` to act as the 
