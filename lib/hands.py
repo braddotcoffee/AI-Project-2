@@ -9,7 +9,7 @@ from lib.coordinate import Coordinate
 
 class Hands():
     
-    def __init__(self, color=Color.WHITE, groupname="iron"):
+    def __init__(self, color=Color.WHITE, groupname="golem"):
         
         self.pollNextMove = True
         self.groupname = groupname
