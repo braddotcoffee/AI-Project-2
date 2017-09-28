@@ -26,8 +26,8 @@ class FrontalLobe(object):
 
 
     def evaluation_function(self, board):
-        own_score = sets_of_adjacent(board.all_friendly(), board.all_enemy())
-        enemy_score = sets_of_adjacent(board.all_enemy(), board.all_friendly())
+        own_score = sets_of_adjacent(board.all_friendly(), board.all_empty())
+        enemy_score = sets_of_adjacent(board.all_enemy(), board.all_empty())
         score = 0
         for i in range(1,6):
             score += FrontalLobe.apply_coefficient(own_score[i], enemy_score[i], self.f_coeff[i-1],
