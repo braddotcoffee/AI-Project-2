@@ -18,8 +18,5 @@ class Body():
     def make_move(self):
         our_move = self._brain.make_move(self._board)
         self._board.add_piece(Piece(self._color, our_move))
-        print("\n**\n")
-        print(our_move)
-        print("\n//**\n")
         return our_move
         

@@ -1,4 +1,4 @@
-from hands import Hands
+from lib.hands import Hands
 import cProfile
 
 def main():

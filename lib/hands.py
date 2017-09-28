@@ -9,7 +9,7 @@ from lib.coordinate import Coordinate
 
 class Hands():
     
-    def __init__(self, color=Color.WHITE, groupname="iron"):
+    def __init__(self, color=Color.WHITE, groupname="golem"):
         
         self.pollNextMove = True
         self.groupname = groupname
@@ -46,7 +46,6 @@ class Hands():
                         continue
 
                 # Normal Gameflow
-                print("NORMAL GAMEFLOW")
                 enemy_move = enemy_move.split()
                 x = Hands.mapLetterToNumber(enemy_move[1])
                 y = int(enemy_move[2])
