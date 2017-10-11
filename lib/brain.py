@@ -5,7 +5,7 @@ from lib.color import Color
 import operator
 
 class Brain(object):
-    def __init__(self, f_coeff=[1,20,50,100,900], e_coeff=[1,35, 60, 150, 855], depth=1):
+    def __init__(self, f_coeff=[1,30,50,100,900], e_coeff=[1,45, 60, 150, 855], depth=1):
         self._depth = depth
         self._frontal_lobe = FrontalLobe(f_coeff, e_coeff, depth)
 
