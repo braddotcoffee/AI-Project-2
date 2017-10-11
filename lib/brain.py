@@ -5,7 +5,7 @@ from lib.color import Color
 import operator
 
 class Brain(object):
-    def __init__(self, f_coeff=[1,15,40,90,900], e_coeff=[1,25, 55, 120, 855], depth=1):
+    def __init__(self, f_coeff=[1,15,50,100,900], e_coeff=[1,35, 60, 150, 855], depth=1):
         self._depth = depth
         self._frontal_lobe = FrontalLobe(f_coeff, e_coeff, depth)
 
@@ -35,7 +35,7 @@ class Brain(object):
     @staticmethod
     def get_branching_factors(len_move_list):
         if len_move_list < 30:
-            return (30, 5)
+            return (25, 5)
         elif len_move_list < 50:
             return (20, 3)
         else:
