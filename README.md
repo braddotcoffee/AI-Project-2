@@ -17,6 +17,7 @@ If you have aliased python to python2, it's possible to run our program by calli
 py -3 golem.py
 (assuming you have python3 installed)
 
+The referee program needs to be run using Python 2.
 
 Our beautiful creation has `hands` to interact with the rest of the world,
 a `brain` to make decisions, a `frontal_lobe`, and a `body` to act as the 
